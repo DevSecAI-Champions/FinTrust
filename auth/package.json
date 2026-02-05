@@ -1,0 +1,13 @@
+{
+  "name": "fintrust-auth",
+  "version": "1.0.0",
+  "description": "FinTrust simulated OAuth2/JWT issuer - training only",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
