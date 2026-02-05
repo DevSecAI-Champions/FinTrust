@@ -1,5 +1,7 @@
 const express = require('express');
 const usersRouter = require('./routes/users');
+const transfersRouter = require('./routes/transfers');
+const paymentsRouter = require('./routes/payments');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -8,6 +10,8 @@ app.use(express.json());
 
 // Deliberate: no rate-limiting, no global auth middleware
 app.use('/users', usersRouter);
+app.use('/transfers', transfersRouter);
+app.use('/payments', paymentsRouter);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 

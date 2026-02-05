@@ -8,22 +8,87 @@ Official repo: [github.com/DevSecAI-Champions/FinTrust](https://github.com/DevSe
 
 ## Architecture overview
 
-- **Web** (React) — Port 3000: User-facing portal; contains deliberate XSS and missing security headers for training.
-- **API** (Node.js/Express) — Port 4000: Backend API; contains missing auth checks, IDOR, and verbose error responses for training.
-- **Auth** (Node.js) — Port 5000: Simulated OAuth2/JWT issuer for login flows.
+The diagram below shows the high-level architecture of the FinTrust application stack used throughout the Security Champions training programme.
 
-All services run in Docker and communicate over an internal network. See [docs/architecture.md](docs/architecture.md) for a diagram.
+```mermaid
+graph TD
+  User[User Browser]
+  Web[Web Portal (React)]
+  API[API Gateway (Node.js)]
+  Auth[Auth Service (OAuth2)]
+  DB[(PostgreSQL Database)]
+  S3[[S3 Bucket]]
+  FX[3rd Party: FX API]
+
+  User --> Web
+  Web -->|JWT| API
+  API --> Auth
+  API --> DB
+  API --> S3
+  API --> FX
+```
+
+- **Web** (React) — Port 3001: User-facing portal; contains deliberate XSS and missing security headers for training.
+- **API** (Node.js/Express) — Port 4000: Backend API; contains missing auth checks, IDOR, and verbose error responses for training.
+- **Auth** (Node.js) — Port 5001 locally (5000 in Docker; 5000 is often in use on macOS).
+
+Auth flow (simplified):
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant W as Web
+  participant A as Auth
+  participant API as API Gateway
+
+  U->>W: Login (email/password)
+  W->>A: OAuth2 Request
+  A-->>W: JWT token
+  W->>API: Request with JWT
+  API->>A: Verify token
+  API-->>W: Data response
+```
+
+See [docs/architecture.md](docs/architecture.md) and [docs/auth-flow.md](docs/auth-flow.md) for more detail.
 
 ---
 
-## Run locally with Docker
+## Run locally (without Docker)
+
+**Option A — one command (recommended)**
+
+```bash
+npm run install:all    # once: install deps in root, auth, api, web
+npm run dev            # starts auth (5001), api (4000), web (3001)
+```
+
+**Option B — three terminals**
+
+```bash
+# Terminal 1 – Auth
+cd auth && npm install && npm start
+
+# Terminal 2 – API
+cd api && npm install && npm start
+
+# Terminal 3 – Web
+cd web && npm install && npm start
+```
+
+Then open **http://localhost:3001**. The web app talks to the API at 4000 and Auth at 5001 (via proxy or `REACT_APP_*`).
+
+To use different ports, set `PORT` before starting (e.g. `PORT=3002` in `web/.env.development` for web, or `PORT=4001` when starting the API).
+
+---
+
+## Run with Docker
 
 ```bash
 cp .env.example .env   # optional: edit if needed
 docker-compose up --build
 ```
 
-- Web: http://localhost:3000  
+- Web: http://localhost:3001 (or 3000 in Docker; set in docker-compose if needed)  
 - API: http://localhost:4000  
 - Auth: http://localhost:5000  
 
