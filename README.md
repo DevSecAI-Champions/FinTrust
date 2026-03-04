@@ -103,6 +103,7 @@ docker-compose up --build
 | **Infrastructure as Code** | `terraform/` — public S3, wildcard IAM, unencrypted DB |
 | **CI/CD security**    | `.github/workflows/` — SAST, IaC scan, secrets, SBOM |
 | **Threat modeling**   | `docs/` — attack surface template, threat-modeling guide |
+| **Red Team vs Blue Team** | `Red_Blue_Team/` — attack/defend simulation (RED_TEAM.md, BLUE_TEAM.md, APPS.md, DEBRIEF.md, DRAWIO_TEMPLATES.md) |
 | **Pen testing**       | Whole stack — end-to-end lab environment |
 
 See [docs/session-mapping.md](docs/session-mapping.md) for details.
