@@ -206,7 +206,7 @@ function Transfer({ account }) {
   );
 }
 
-function PayBill({ account }) {
+function PayBill({ token }) {
   const [payee, setPayee] = useState('');
   const [amount, setAmount] = useState('');
   const [reference, setReference] = useState('');
@@ -221,7 +221,6 @@ function PayBill({ account }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        fromAccountId: account.id,
         payeeName: payee,
         amount: parseFloat(amount) || 0,
         reference: reference || 'Bill payment',
