@@ -29,6 +29,7 @@ export default function Dashboard({ onLogout }) {
     { id: 'transfer', label: 'Transfer' },
     { id: 'pay', label: 'Pay a bill' },
     { id: 'statements', label: 'Statements' },
+    { id: 'chatbot', label: 'Support chatbot' },
   ];
 
   return (
@@ -72,6 +73,9 @@ export default function Dashboard({ onLogout }) {
           )}
           {view === 'statements' && (
             <Statements account={account} />
+          )}
+          {view === 'chatbot' && (
+            <Chatbot />
           )}
         </>
       )}
@@ -347,6 +351,106 @@ function Statements({ account }) {
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  );
+}
+
+function Chatbot() {
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      sender: 'bot',
+      text: 'Hi, I am the FinTrust support chatbot (training only). Ask me about your balance, transfers, or today’s security exercise.',
+    },
+  ]);
+  const [input, setInput] = useState('');
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    const userMessage = {
+      id: Date.now(),
+      sender: 'user',
+      text: trimmed,
+    };
+
+    setMessages((current) => [...current, userMessage]);
+    setInput('');
+    setSending(true);
+    setError(null);
+
+    fetch(`${API_BASE}/api/chatbot`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: trimmed }),
+    })
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Request failed'))))
+      .then((data) => {
+        const botText = data && data.reply
+          ? data.reply
+          : 'Mock chatbot response (training only).';
+        const botMessage = {
+          id: Date.now() + 1,
+          sender: 'bot',
+          text: botText,
+        };
+        setMessages((current) => [...current, botMessage]);
+      })
+      .catch(() => {
+        setError('Chatbot is unavailable. Is the API running on port 4000?');
+      })
+      .finally(() => {
+        setSending(false);
+      });
+  };
+
+  return (
+    <div className="chatbot-card">
+      <h3>AI support chatbot (mock)</h3>
+      <p className="form-card-desc">
+        Training-only chatbot connected to a mocked API. Try different questions – it will echo your prompt in its reply.
+      </p>
+      <div className="chatbot-window" aria-live="polite">
+        {messages.map((m) => (
+          <div
+            key={m.id}
+            className={`chatbot-message chatbot-message-${m.sender}`}
+          >
+            <span className="chatbot-message-sender">
+              {m.sender === 'bot' ? 'Chatbot' : 'You'}
+            </span>
+            <p className="chatbot-message-text">
+              {m.text}
+            </p>
+          </div>
+        ))}
+      </div>
+      <form onSubmit={handleSubmit} className="chatbot-form">
+        <label htmlFor="chatbot-input" className="visually-hidden">
+          Ask the chatbot a question
+        </label>
+        <div className="chatbot-input-row">
+          <input
+            id="chatbot-input"
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your question…"
+          />
+          <button type="submit" className="btn" disabled={sending}>
+            {sending ? 'Sending…' : 'Send'}
+          </button>
+        </div>
+      </form>
+      {error && (
+        <div className="message error" role="alert">
+          {error}
+        </div>
       )}
     </div>
   );
