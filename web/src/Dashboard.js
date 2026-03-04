@@ -206,7 +206,7 @@ function Transfer({ account }) {
   );
 }
 
-function PayBill({ token }) {
+function PayBill() {
   const [payee, setPayee] = useState('');
   const [amount, setAmount] = useState('');
   const [reference, setReference] = useState('');
