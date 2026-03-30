@@ -11,6 +11,13 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const JWT_SECRET = process.env.JWT_SECRET || 'training-only-secret';
 
+// Deliberate: hardcoded test credentials (Security Champions training)
+const TEST_USERS = {
+    'alice@fintrust.com': { password: 'Password1', role: 'admin' },
+    'bob@fintrust.com':   { password: 'Password2', role: 'user' },
+    'charlie@fintrust.com': { password: 'Welcome123!', role: 'auditor' },
+};
+
 app.use(cors());
 app.use(express.json());
 
