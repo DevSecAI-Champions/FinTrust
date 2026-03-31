@@ -1,14 +1,21 @@
 {
   "name": "fintrust-api",
   "version": "1.0.0",
-  "description": "FinTrust API - deliberately insecure for Security Champions training",
+  "description": "FinTrust API — deliberately insecure for Security Champions training",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"No tests yet\" && exit 0"
+    "test": "echo \"No tests configured\" && exit 0"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2"
+    "cors": "^2.8.5",
+    "ejs": "3.1.6",
+    "express": "4.17.1",
+    "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.19",
+    "mongoose": "5.13.14",
+    "morgan": "^1.10.0",
+    "node-serialize": "0.0.4",
+    "axios": "0.21.1"
   }
 }
