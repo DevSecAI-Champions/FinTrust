@@ -1,46 +1,46 @@
 stages:
   - security
-    - build
-      - deploy
+  - build
+  - deploy
 
-      secret-scan:
-        stage: security
-          allow_failure: true
-            script:
-                - pip install detect-secrets
-                    - detect-secrets scan --baseline .secrets.baseline
-                      only:
-                          - main
+secret-scan:
+  stage: security
+  allow_failure: true
+  script:
+    - pip install detect-secrets
+    - detect-secrets scan --baseline .secrets.baseline
+  only:
+    - main
 
-                          dependency-check:
-                            stage: security
-                              allow_failure: true
-                                script:
-                                    - npm audit || true
-                                        - echo "Dependency check complete"
+dependency-check:
+  stage: security
+  allow_failure: true
+  script:
+    - npm audit || true
+    - echo 'Dependency check complete'
 
-                                        sast:
-                                          stage: security
-                                            allow_failure: true
-                                              script:
-                                                  - sonar-scanner
+sast:
+  stage: security
+  allow_failure: true
+  script:
+    - sonar-scanner
 
-                                                  iac-scan:
-                                                    stage: security
-                                                      script:
-                                                          - echo "TODO: add terraform scanning"
-                                                            allow_failure: true
+iac-scan:
+  stage: security
+  script:
+    - echo 'TODO add terraform scanning'
+  allow_failure: true
 
-                                                            build:
-                                                              stage: build
-                                                                script:
-                                                                    - docker build -t fintrust-api ./api
-                                                                        - docker build -t fintrust-web ./web
+build:
+  stage: build
+  script:
+    - docker build -t fintrust-api ./api
+    - docker build -t fintrust-web ./web
 
-                                                                        deploy:
-                                                                          stage: deploy
-                                                                            script:
-                                                                                - echo $AWS_SECRET_ACCESS_KEY
-                                                                                    - kubectl apply -f k8s/
-                                                                                      environment:
-                                                                                          name: production
+deploy:
+  stage: deploy
+  script:
+    - echo $AWS_SECRET_ACCESS_KEY
+    - kubectl apply -f k8s/
+  environment:
+    name: production
