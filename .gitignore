@@ -7,3 +7,5 @@ dist/
 .terraform/
 *.tfstate*
 .sbom*.json
+fintrust-sbom-*.json
+fintrust-grype-scan.*
