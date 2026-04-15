@@ -1,6 +1,6 @@
 # FinTrust
 
-**FinTrust** is a fictional fintech application built for [DevSecAI](https://github.com/DevSecAI-Champions)'s 6-month **Security Champions** training programme. This repo is intentionally scaffolded with deliberate security flaws for secure coding, IaC, and DevSecOps training—**do not use in production**.
+**FinTrust** is a fictional fintech. application built for [DevSecAI](https://github.com/DevSecAI-Champions)'s 6-month **Security Champions** training programme. This repo is intentionally scaffolded with deliberate security flaws for secure coding, IaC, and DevSecOps training—**do not use in production**.
 
 Official repo: [github.com/DevSecAI-Champions/FinTrust](https://github.com/DevSecAI-Champions/FinTrust)
 
