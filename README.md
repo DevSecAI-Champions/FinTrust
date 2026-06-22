@@ -8,6 +8,9 @@ Official repo: [github.com/DevSecAI-Champions/FinTrust](https://github.com/DevSe
 
 ## Architecture overview
 
+
+update  charlie
+
 The diagram below shows the high-level architecture of the FinTrust application stack used throughout the Security Champions training programme.
 
 ```mermaid
