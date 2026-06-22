@@ -4,6 +4,7 @@
 
 Official repo: [github.com/DevSecAI-Champions/FinTrust](https://github.com/DevSecAI-Champions/FinTrust)
 
+New App Features
 ---
 
 ## Architecture overview
