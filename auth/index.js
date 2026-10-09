@@ -13,9 +13,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'training-only-secret';
 
 // Deliberate: hardcoded test credentials (Security Champions training)
 const TEST_USERS = {
-    'alice@fintrust.com': { password: 'Password1', role: 'admin' },
-    'bob@fintrust.com':   { password: 'Password2', role: 'user' },
-    'charlie@fintrust.com': { password: 'Welcome123!', role: 'auditor' },
+    'alice@fintrust.com': { password: process.env.ALICE_PASSWORD || 'placeholder-password', role: 'admin' },
+    'bob@fintrust.com':   { password: process.env.BOB_PASSWORD || 'placeholder-password', role: 'user' },
+    'charlie@fintrust.com': { password: process.env.CHARLIE_PASSWORD || 'placeholder-password', role: 'auditor' },
 };
 
 app.use(cors());
